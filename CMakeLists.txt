@@ -17,8 +17,27 @@ find_package(GTest REQUIRED)
 
 include(GoogleTest)
 
+
+
 add_library(AplicacionMusica
-           )
+    # Archivos de tipo cpp
+    src/Types.cpp
+    src/Performers.cpp
+    src/Persons.cpp
+    src/Groups.cpp
+    src/In_Group.cpp
+    src/Albums.cpp
+    src/Rolas.cpp
+    # Archivos de tipo hpp
+    include/InterFacadeTablas.hpp
+    include/Types.hpp
+    include/Performers.hpp
+    include/Persons.hpp
+    include/Groups.hpp
+    include/In_Group.hpp
+    include/Albums.hpp
+    include/Rolas.hpp
+    )
 
 target_include_directories(AplicacionMusica
     PUBLIC include
