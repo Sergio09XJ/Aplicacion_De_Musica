@@ -18,6 +18,7 @@ class Types : public InterFacadeTablas{
 
   public:
 
+
     /**
     * @brief Constructor Types
     * @param int de el id y string de la descricción.
@@ -44,14 +45,14 @@ class Types : public InterFacadeTablas{
     * @param id para acceder a la fila.
     * @return retorno auto en base a tipo de dato que se retorno
     */
-    std::string Leer_Consultar(int id);
+    json Leer_Consultar(int id);
 
     /**
     * @brief Método concreto para modificar la base de datos.
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar();
+    void Actualizar_Modificar(std::string peticion);
 
     /**
     * @brief Método concreto para eliminar la base de datos.

@@ -2,14 +2,12 @@ cmake_minimum_required(VERSION 3.28)
 
 project(AplicacionMusica VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 1. Configuración estándar de Qt
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 qt_standard_project_setup(REQUIRES 6.9)
-
-# 2. Carga de dependencias externas y herramientas
-find_package(Doxygen)
 
 # 2. Carga de dependencias externas y herramientas
 find_package(Doxygen)
@@ -25,15 +23,31 @@ if(APPLE)
     endif()
 endif()
 
+# Detección de libpqxx (CMake Config en macOS / pkg-config en Ubuntu Docker)
+find_package(libpqxx CONFIG QUIET)
+if(libpqxx_FOUND)
+    set(PQXX_TARGET libpqxx::pqxx)
+else()
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(PQXX REQUIRED IMPORTED_TARGET libpqxx)
+    set(PQXX_TARGET PkgConfig::PQXX)
+endif()
 
-# GoogleTest
+# Descarga de GoogleTest y nlohmann/json
 include(FetchContent)
+
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+
+FetchContent_Declare(
+  json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
+
+FetchContent_MakeAvailable(googletest json)
 
 include(GNUInstallDirs)
 include(GoogleTest)
@@ -60,22 +74,30 @@ add_library(AplicacionMusica
 target_link_libraries(AplicacionMusica
     PUBLIC
     ${PQXX_TARGET}
+    nlohmann_json::nlohmann_json
 )
 
 target_include_directories(AplicacionMusica
     PUBLIC include
 )
 
+if(APPLE)
+    target_include_directories(AplicacionMusica
+        SYSTEM PUBLIC
+        "/opt/homebrew/include"
+        "/opt/homebrew/opt/libpq/include"
+    )
+endif()
+
 target_compile_features(AplicacionMusica
     PUBLIC
-    cxx_std_20
+    cxx_std_17
 )
 
 target_compile_options(AplicacionMusica
     PUBLIC
     -Wall -Wextra
 )
-
 
 # 4. Ejecutable de la aplicación de usuario (QML)
 qt_add_executable(appAplicacionMusica
@@ -131,5 +153,3 @@ if(DOXYGEN_FOUND)
       COMMENT "Generando documentación con doxygen."
     )
 endif()
-
-

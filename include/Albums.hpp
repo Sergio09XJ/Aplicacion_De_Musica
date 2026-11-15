@@ -17,6 +17,7 @@ private:
     std::string name;
     int year;
     std::string coverImage;
+    std::unique_ptr<pqxx::connection> conn;
 
 
 public:
@@ -47,14 +48,14 @@ public:
     * @param id para acceder a la fila.
     * @return retorno auto en base a tipo de dato que se retorno
     */
-    std::string Leer_Consultar(int id);
+    json Leer_Consultar(int id);
 
     /**
     * @brief Método concreto para modificar la base de datos.
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar();
+    void Actualizar_Modificar(std::string peticion);
 
     /**
     * @brief Método concreto para eliminar la base de datos.

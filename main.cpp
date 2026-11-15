@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "InterFacadeTablas.hpp"
+#include <QUrl>
+#include <QStringLiteral>
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +17,11 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("AplicacionMusica", "Main");
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+      engine.loadFromModule("AplicacionMusica", "Main");
+    #else
+      engine.load(QUrl(QStringLiteral("qrc:/AplicacionMusica/Main.qml")));
+    #endif
 
     return QGuiApplication::exec();
 }

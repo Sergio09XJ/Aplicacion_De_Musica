@@ -6,8 +6,11 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <string>
 #include <pqxx/pqxx>
+#include <nlohmann/json.hpp>
 
+using json = nlohmann::json;
 
 /**
  * @class Clase InterFacadeTablas; es la interface para CRUD en la base de datos
@@ -15,7 +18,10 @@
  */
 class InterFacadeTablas{
 
+
+
   public:
+
 
     /**
     * @brief Método virtual para crear e insertar en la base de datos.
@@ -29,14 +35,14 @@ class InterFacadeTablas{
     * @param id para acceder a la fila.
     * @return retorno auto en base a tipo de dato que se retorno
     */
-    virtual std::string Leer_Consultar(int id) = 0;
+    virtual json Leer_Consultar(int id) = 0;
 
     /**
     * @brief Método virtual para modificar la base de datos.
     * @param Sin parametros.
     * @return Sin retorno.
    …. */
-    virtual void Actualizar_Modificar() = 0;
+    virtual void Actualizar_Modificar(std::string peticion) = 0;
 
     /**
     * @brief Método virtual para eliminar la base de datos.

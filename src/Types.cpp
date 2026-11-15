@@ -1,9 +1,12 @@
 #include "Types.hpp"
 
+#include <pqxx/pqxx>
+#include <nlohmann/json.hpp>
 
 
 
-Types::Types(int id_type, std::string description) : id_type(id_type), description(description){
+
+Types::Types(int id_type, std::string description) : id_type(id_type), description(std::move(description)){
 
     std::string conn_str = "dbname=musica-pgadmin user=postgres password=music_dev_password host=postgres port=5432";
     this->conn = std::make_unique<pqxx::connection>(conn_str);
@@ -31,17 +34,24 @@ void Types::Crear_Insertar(){
 
 
 
-std::string Types::Leer_Consultar(int id){
-    pqxx::work txn(&conn);
-    pqxx::result res = txn.exec(peticion)
+json Types::Leer_Consultar(int id){
+
+    pqxx::work txn(*conn);
+    pqxx::result res = txn.exec("SELECT id_type, descripcion FROM Types;");
 
      // Extraemos las columnas mapeándolas a sus tipos de C++
-    this->id_type = row["id_type"].as<int>();
-    this->description = row["description"].as<std::string>();
+    for(const auto& row : res){
+        if (id == row["id_type"].as<int>()){
+           this->id_type = row["id_type"].as<int>();
+           this->description = row["description"].as<std::string>();
+           return json{
+                  {"id_type" , this->id_type},
+                  {"description", this->description}
+           };
 
-    std::cout << "ID: " << id << " | Nombre: " << name << "\n";
-    return std::pair<int,std::string>(id_type, description);
-
+        }
+    }
+    return json{};
 }
 
 

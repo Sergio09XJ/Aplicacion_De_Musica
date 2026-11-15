@@ -18,11 +18,14 @@ private:
     int id_original_artist;
     std::string path;
     std::string title;
-    std::string track;
-    std::string disk_number;
+    int track;
+    int disk_number;
     int year;
     std::string genre;
     std::string comment;
+
+    std::unique_ptr<pqxx::connection> conn;
+
 
 
 public:
@@ -32,8 +35,10 @@ public:
     * @param int para id_album y year string para  path, name, coverImage
     * @return Sin retorno
     */
-    Rolas(int id_rola, int id_performer, int id_album,  int id_original_artist, std::string path, std::string title,
-           std::string track,std::string disk_number, int year, std::string genre, std::string comment);
+    Rolas(int id_rola, int id_performer, int id_album, int id_composer, int id_original_artist,
+          std::string path, std::string title, int track, int disk_number, int year,
+          std::string genre, std::string comment);
+
 
     /**
     * @brief Destructor de Rolas.
@@ -54,14 +59,14 @@ public:
     * @param id para acceder a la fila.
     * @return retorno auto en base a tipo de dato que se retorno
     */
-    std::string Leer_Consultar(int id);
+    json Leer_Consultar(int id);
 
     /**
     * @brief Método concreto para modificar la base de datos.
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar();
+    void Actualizar_Modificar(std::string peticion);
 
     /**
     * @brief Método concreto para eliminar la base de datos.

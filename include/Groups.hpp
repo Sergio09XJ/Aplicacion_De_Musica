@@ -17,6 +17,7 @@ private:
     std::string start_date;
     std::string end_date;
     int performers_id;
+    std::unique_ptr<pqxx::connection> conn;
 
 public:
 
@@ -46,14 +47,14 @@ public:
     * @param id para acceder a la fila.
     * @return retorno auto en base a tipo de dato que se retorno
     */
-    std::string Leer_Consultar(int id);
+    json Leer_Consultar(int id);
 
     /**
     * @brief Método concreto para modificar la base de datos.
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar();
+    void Actualizar_Modificar(std::string peticion);
 
     /**
     * @brief Método concreto para eliminar la base de datos.
