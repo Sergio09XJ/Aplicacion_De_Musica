@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "InterFacadeTablas.hpp"
 
 int main(int argc, char *argv[])
 {

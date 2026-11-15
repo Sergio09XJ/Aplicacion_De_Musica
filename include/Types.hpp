@@ -14,6 +14,7 @@ class Types : public InterFacadeTablas{
 
     int id_type;
     std::string description;
+    std::unique_ptr<pqxx::connection> conn;
 
   public:
 

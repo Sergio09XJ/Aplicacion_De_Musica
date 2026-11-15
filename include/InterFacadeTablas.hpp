@@ -4,6 +4,10 @@
 
 
 #include <string>
+#include <iostream>
+#include <memory>
+#include <pqxx/pqxx>
+
 
 /**
  * @class Clase InterFacadeTablas; es la interface para CRUD en la base de datos

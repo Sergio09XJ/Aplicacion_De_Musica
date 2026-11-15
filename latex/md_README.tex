@@ -1,0 +1,57 @@
+\chapter{Aplicación de Música}
+\hypertarget{md_README}{}\label{md_README}\index{Aplicación de Música@{Aplicación de Música}}
+\label{md_README_autotoc_md0}%
+\Hypertarget{md_README_autotoc_md0}%
+ Este proyecto se puede definir como una base de datos musical con interfaz gráfica.
+
+\begin{quote}
+{\bfseries{Nota importante\+:}} Los cambios que se realizan a través de la aplicación ocurren exclusivamente en la base de datos, no en los archivos MP3 originales. \end{quote}
+\hypertarget{md_README_autotoc_md1}{}\doxysection{\texorpdfstring{Componentes del Proyecto}{Componentes del Proyecto}}\label{md_README_autotoc_md1}
+
+\begin{DoxyItemize}
+\item {\bfseries{Base de datos\+:}} Almacena toda la información organizada de la biblioteca musical.
+\item {\bfseries{Minero\+:}} Recorre el directorio del sistema y analiza los archivos MP3 en base a sus etiquetas ID3v2.\+4. Esta información extraída se agrega automáticamente a la base de datos.
+\item {\bfseries{Interfaz gráfica\+:}} Su función es permitir la reproducción de los archivos y modificar ciertos datos dentro de la base de datos (por ejemplo, cambiar el título de la canción, el año de un álbum o el intérprete).
+\item {\bfseries{Compilador\+:}} Su objetivo es permitir la búsqueda de distintos campos en la base de datos de forma intuitiva, sin que el usuario deba escribir consultas SQL.
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Gestión en la Base de Datos}{Gestión en la Base de Datos}}\label{md_README_autotoc_md2}
+El sistema permite estructurar y modificar la información musical con las siguientes reglas\+:
+
+
+\begin{DoxyItemize}
+\item Los intérpretes de una canción pueden ser clasificados como individuos o como una banda.
+\item Se pueden editar los detalles específicos de cualquier banda o individuo.
+\item Es posible registrar en el sistema individuos que actualmente no interpreten ninguna pista.
+\item Se pueden agregar individuos para que formen parte de las bandas existentes.
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md3}{}\doxysection{\texorpdfstring{Acceso a las Canciones}{Acceso a las Canciones}}\label{md_README_autotoc_md3}
+El acceso a los archivos físicos es un trabajo gestionado por el minero de la siguiente manera\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Pistas\+:}} Cada pista tiene un {\itshape path} (ruta) en el sistema de archivos que apunta directamente al archivo MP3 que representa.
+\item {\bfseries{Álbumes\+:}} Cada álbum cuenta con una ruta que apunta al directorio específico donde están alojadas las canciones de ese álbum.
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md4}{}\doxysection{\texorpdfstring{Etiquetas Analizadas (\+ID3v2.\+4)}{Etiquetas Analizadas (ID3v2.4)}}\label{md_README_autotoc_md4}
+El minero lee las siguientes etiquetas de los archivos MP3 para poblar la base de datos\+:
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Atributo   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Etiqueta   }&\cellcolor{\tableheadbgcolor}\textbf{ Descripción / Formato    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Atributo   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Etiqueta   }&\cellcolor{\tableheadbgcolor}\textbf{ Descripción / Formato    }\\\cline{1-3}
+\endhead
+{\bfseries{Artista}}   &\PBS\centering {\ttfamily TPE1}   &Intérprete principal de la pista.    \\\cline{1-3}
+{\bfseries{Título}}   &\PBS\centering {\ttfamily TIT2}   &Nombre de la canción.    \\\cline{1-3}
+{\bfseries{Álbum}}   &\PBS\centering {\ttfamily TALB}   &Nombre del álbum.    \\\cline{1-3}
+{\bfseries{Banda del álbum}}   &\PBS\centering {\ttfamily TPE2}   &También conocida como "{}artista del álbum"{}.    \\\cline{1-3}
+{\bfseries{Año}}   &\PBS\centering {\ttfamily TDRC}   &Año de grabación o publicación.    \\\cline{1-3}
+{\bfseries{Pista}}   &\PBS\centering {\ttfamily TRCK}   &Cadena con la pista y el total de pistas (ej. {\ttfamily 04/13} para la pista 04 de 13 en total).    \\\cline{1-3}
+{\bfseries{Número de discos}}   &\PBS\centering {\ttfamily TPOS}   &Posición del medio en un set de múltiples volúmenes.    \\\cline{1-3}
+{\bfseries{Género}}   &\PBS\centering {\ttfamily TCON}   &Categoría o género musical.    \\\cline{1-3}
+{\bfseries{Comentario}}   &\PBS\centering {\ttfamily COMM}   &Notas o descripciones adicionales.    \\\cline{1-3}
+{\bfseries{Compositor}}   &\PBS\centering {\ttfamily TCOM}   &Creador o compositor de la pista.    \\\cline{1-3}
+{\bfseries{Artista original}}   &\PBS\centering {\ttfamily TOPE}   &Intérprete original de la obra (útil para identificar {\itshape covers}).    \\\cline{1-3}
+{\bfseries{Imagen}}   &\PBS\centering {\ttfamily APIC}   &Carátula del álbum y fotografía del artista.   \\\cline{1-3}
+\end{longtabu}

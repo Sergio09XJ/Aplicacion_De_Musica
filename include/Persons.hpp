@@ -61,7 +61,7 @@ public:
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Eliminar_Borrar() = 0;
+    void Eliminar_Borrar();
 
 
 };
