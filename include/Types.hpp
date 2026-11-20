@@ -24,7 +24,7 @@ class Types : public InterFacadeTablas{
     * @param int de el id y string de la descricción.
     * @return Sin retorno
     */
-    Types(int id_type, std::string description);
+    Types(int id_type =0, std::string description ="");
 
       /**
     * @brief Destructo de Types.
@@ -52,7 +52,7 @@ class Types : public InterFacadeTablas{
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar(std::string peticion);
+    void Actualizar_Modificar(int elemento);
 
     /**
     * @brief Método concreto para eliminar la base de datos.

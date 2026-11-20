@@ -27,7 +27,8 @@ public:
     * @param int para id_album y year string para  path, name, coverImage
     * @return Sin retorno
     */
-    Albums(int id_album, std::string path, std::string name,  int year, std::string coverImage);
+    Albums(int id_album =0, std::string path="", std::string name="",  int year=0, std::string coverImage="");
+
 
     /**
     * @brief Destructo de Albums.
@@ -55,7 +56,7 @@ public:
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar(std::string peticion);
+    void Actualizar_Modificar(int elemento);
 
     /**
     * @brief Método concreto para eliminar la base de datos.

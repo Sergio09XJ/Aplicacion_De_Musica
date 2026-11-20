@@ -42,7 +42,7 @@ class InterFacadeTablas{
     * @param Sin parametros.
     * @return Sin retorno.
    …. */
-    virtual void Actualizar_Modificar(std::string peticion) = 0;
+    virtual void Actualizar_Modificar(int elemento) = 0;
 
     /**
     * @brief Método virtual para eliminar la base de datos.

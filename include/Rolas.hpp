@@ -35,9 +35,9 @@ public:
     * @param int para id_album y year string para  path, name, coverImage
     * @return Sin retorno
     */
-    Rolas(int id_rola, int id_performer, int id_album, int id_composer, int id_original_artist,
-          std::string path, std::string title, int track, int disk_number, int year,
-          std::string genre, std::string comment);
+    Rolas(int id_rola=0, int id_performer=0, int id_album=0, int id_composer=0, int id_original_artist=0,
+          std::string path="", std::string title="", int track=0, int disk_number=0, int year=0,
+          std::string genre="", std::string comment="");
 
 
     /**
@@ -66,7 +66,7 @@ public:
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar(std::string peticion);
+    void Actualizar_Modificar(int elemento);
 
     /**
     * @brief Método concreto para eliminar la base de datos.

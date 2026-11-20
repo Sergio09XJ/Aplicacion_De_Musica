@@ -2,8 +2,13 @@ cmake_minimum_required(VERSION 3.28)
 
 project(AplicacionMusica VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+if(APPLE)
+    set(CMAKE_CXX_STANDARD 20)
+else()
+    set(CMAKE_CXX_STANDARD 17)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 # 1. Configuración estándar de Qt
 find_package(Qt6 REQUIRED COMPONENTS Quick)
@@ -89,10 +94,12 @@ if(APPLE)
     )
 endif()
 
-target_compile_features(AplicacionMusica
-    PUBLIC
-    cxx_std_17
-)
+if(APPLE)
+    target_compile_features(AplicacionMusica PUBLIC cxx_std_20)
+else()
+    target_compile_features(AplicacionMusica PUBLIC cxx_std_17)
+endif()
+
 
 target_compile_options(AplicacionMusica
     PUBLIC

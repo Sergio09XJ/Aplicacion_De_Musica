@@ -54,7 +54,7 @@ public:
     * @param Sin parametros.
     * @return Sin retorno.
     */
-    void Actualizar_Modificar(std::string peticion);
+    void Actualizar_Modificar(int elemento);
 
     /**
     * @brief Método concreto para eliminar la base de datos.
