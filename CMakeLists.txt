@@ -75,6 +75,8 @@ add_library(AplicacionMusica
     src/CompiladorBusquedasFacade.cpp
     #Definición de la implementación para el minero
     src/Minero.cpp
+    #Definición de la implementación para la UI
+    src/BibliotecaController.cpp
     # Definición de los hpp para las clases de las tablas
     include/InterFacadeTablas.hpp
     include/Types.hpp
@@ -95,6 +97,8 @@ add_library(AplicacionMusica
     #Definicion de las clases y structs para el minero
     include/MetaDatosMP3.hpp
     include/Minero.hpp
+    #Definicion de clase para la UI
+    include/BibliotecaController.hpp
 )
 
 target_include_directories(AplicacionMusica
@@ -129,14 +133,26 @@ target_compile_options(AplicacionMusica
 # 5. Ejecutable de la aplicación de usuario (QML)
 qt_add_executable(appAplicacionMusica
     main.cpp
+    include/BibliotecaController.hpp
+    src/BibliotecaController.cpp
 )
 
 qt_add_qml_module(appAplicacionMusica
     URI AplicacionMusica
     VERSION 0.1
     QML_FILES
-        Main.qml
-)
+        qml/Main.qml
+        qml/vistas/VistaCanciones.qml
+        qml/vistas/VistaAlbumes.qml
+        qml/vistas/VistaArtistas.qml
+        qml/vistas/VistaBuscadorAvanzado.qml
+        qml/componentes//DialogoImportarMinero.qml
+        qml/componentes/DialogoEditarCancion.qml
+        qml/componentes/DialogoEditarAlbum.qml
+        qml/componentes/DialogoPersonaGrupo.qml
+        qml/componentes/DialogoIntegrantes.qml
+    )
+
 
 set_target_properties(appAplicacionMusica PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
