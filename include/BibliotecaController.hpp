@@ -1,16 +1,21 @@
 #ifndef BIBLIOTECA_CONTROLLER_HPP
 #define BIBLIOTECA_CONTROLLER_HPP
 
+
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QVariantList>
 #include <QVariantMap>
 #include <memory>
-#include <pqxx/pqxx>
 
 #include "CompiladorBusquedasFacade.hpp"
 #include "Minero.hpp"
+
+namespace pqxx {
+class connection;
+}
 
 class BibliotecaController : public QObject {
     Q_OBJECT

@@ -38,9 +38,9 @@ Dialog {
     GridLayout {
         columns: 2
         anchors.fill: parent
-        Label { text: "Nombre:" }     ; TextField { id: campoName; Layout.fillWidth: true }
-        Label { text: "Intérprete:" } ; ComboBox  { id: comboPerf; model: listaPerformers.map(p => p.name); Layout.fillWidth: true }
-        Label { text: "Año:" }        ; TextField { id: campoYear; Layout.fillWidth: true }
-        Label { text: "Ruta:" }       ; TextField { id: campoPath; Layout.fillWidth: true }
+        Label { text: "Nombre:" }      TextField { id: campoName; Layout.fillWidth: true }
+        Label { text: "Intérprete:" }  ComboBox  { id: comboPerf; model: listaPerformers.map(p => p.name); Layout.fillWidth: true }
+        Label { text: "Año:" }         TextField { id: campoYear; Layout.fillWidth: true }
+        Label { text: "Ruta:" }        TextField { id: campoPath; Layout.fillWidth: true }
     }
 }

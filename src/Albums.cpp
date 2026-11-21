@@ -3,7 +3,11 @@
 Albums::Albums(int id_album, std::string path, std::string name, int year, std::string cover_image)
     : id_album(id_album), path(std::move(path)), name(std::move(name)), year(year), cover_image(std::move(cover_image)) {
 
-    std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#ifdef __APPLE__
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=localhost port=5432";
+#else
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#endif
 
     try {
         this->conn = std::make_unique<pqxx::connection>(conn_str);

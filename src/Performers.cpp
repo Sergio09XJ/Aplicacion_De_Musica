@@ -6,7 +6,11 @@ Performers::Performers(int id_performer, int id_type, std::string name, std::str
     name(std::move(name)),
     image(std::move(image)) {
 
-    std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#ifdef __APPLE__
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=localhost port=5432";
+#else
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#endif
 
     try {
         this->conn = std::make_unique<pqxx::connection>(conn_str);

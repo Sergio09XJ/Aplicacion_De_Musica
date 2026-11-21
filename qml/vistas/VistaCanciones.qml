@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "componentes"
+import "../componentes"
+
 
 Item {
     id: raiz

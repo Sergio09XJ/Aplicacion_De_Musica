@@ -16,7 +16,11 @@ Rolas::Rolas(int id_rola, int id_performer, int id_album, int id_composer, int i
     genre(std::move(genre)),
     comment(std::move(comment)) {
 
-    std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#ifdef __APPLE__
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=localhost port=5432";
+#else
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#endif
 
     try {
         this->conn = std::make_unique<pqxx::connection>(conn_str);

@@ -1,4 +1,4 @@
-#include "BibliotecaController.hpp"
+
 #include "Rolas.hpp"
 #include "Albums.hpp"
 #include "Persons.hpp"
@@ -7,11 +7,19 @@
 #include "Performers.hpp"
 #include <QUrl>
 
+#include "BibliotecaController.hpp"
+#include <pqxx/pqxx>
+
+
 std::string BibliotecaController::obtenerConnStrPorDefecto() {
 #ifdef __APPLE__
     return "dbname=musicabasedatos user=postgres password=music_dev_password host=localhost port=5432";
 #else
-    return "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#ifdef __APPLE__
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=localhost port=5432";
+#else
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#endif
 #endif
 }
 

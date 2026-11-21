@@ -44,9 +44,9 @@ Dialog {
     GridLayout {
         columns: 2
         anchors.fill: parent
-        Label { text: esPersona ? "Nombre Artístico:" : "Nombre Grupo:" } ; TextField { id: c1; Layout.fillWidth: true }
-        Label { text: esPersona ? "Nombre Real:" : "Fecha Inicio:" }      ; TextField { id: c2; Layout.fillWidth: true }
-        Label { text: esPersona ? "Nacimiento:" : "Fecha Fin:" }          ; TextField { id: c3; Layout.fillWidth: true }
-        Label { text: "Fallecimiento:"; visible: esPersona }              ; TextField { id: c4; visible: esPersona; Layout.fillWidth: true }
+        Label { text: esPersona ? "Nombre Artístico:" : "Nombre Grupo:" }  TextField { id: c1; Layout.fillWidth: true }
+        Label { text: esPersona ? "Nombre Real:" : "Fecha Inicio:" }       TextField { id: c2; Layout.fillWidth: true }
+        Label { text: esPersona ? "Nacimiento:" : "Fecha Fin:" }           TextField { id: c3; Layout.fillWidth: true }
+        Label { text: "Fallecimiento:"; visible: esPersona }               TextField { id: c4; visible: esPersona; Layout.fillWidth: true }
     }
 }

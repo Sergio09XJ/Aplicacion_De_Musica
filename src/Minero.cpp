@@ -5,14 +5,20 @@
 #include "Albums.hpp"
 #include "Rolas.hpp"
 
-#include <taglib/fileref.h>
-#include <taglib/tag.h>
-#include <taglib/tpropertymap.h>
+
 #include <algorithm>
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
 
+#if __has_include(<taglib/fileref.h>)
+#include <taglib/fileref.h>
+#include <taglib/tag.h>
+#include <taglib/tpropertymap.h>
+#define TIENE_TAGLIB 1
+#else
+#define TIENE_TAGLIB 0
+#endif
 
 namespace fs = std::filesystem;
 
@@ -36,6 +42,7 @@ MetadatosMP3 LectorEtiquetasMP3::leer(const fs::path& ruta) const {
     meta.path = ruta.string();
     meta.discNumber = 1;
 
+#if TIENE_TAGLIB
     TagLib::FileRef archivo(meta.path.c_str());
 
     if (!archivo.isNull() && archivo.tag()) {
@@ -66,10 +73,12 @@ MetadatosMP3 LectorEtiquetasMP3::leer(const fs::path& ruta) const {
             }
         }
     }
+#endif
 
     aplicarValoresPorDefecto(ruta, meta);
     return meta;
 }
+
 
 // Clase Minero ----------------------------------------------------
 
@@ -90,13 +99,18 @@ Minero::~Minero() {
 }
 
 bool Minero::esArchivoMP3(const fs::path& ruta) {
-    if (!ruta.has_extension()) return false;
+    if (!ruta.has_extension()) {
+        return false;
+    }
+
     std::string ext = ruta.extension().string();
-    std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c) {
-        return static_cast<char>(std::tolower(c));
-    });
-    return ext == ".mp3";
+    std::transform(ext.begin(), ext.end(), ext.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+
+    return ext == ".mp3" || ext == ".flac" || ext == ".m4a";
 }
+
+
 
 int Minero::obtenerMaxId(const std::string& entidad, const std::string& columnaPk) {
     ConsultaBuilder builder;

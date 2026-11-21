@@ -9,11 +9,12 @@ else()
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 1. Configuración estándar de Qt (6.4 funciona en Ubuntu 24.04 Docker y en macOS)
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+# 1. Configuración estándar de Qt (Core + Quick para macOS y Ubuntu 24.04 Docker)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick QuickControls2 Multimedia)
+
 qt_standard_project_setup(REQUIRES 6.4)
 
-# 2. Rutas específicas para macOS (Homebrew) antes de buscar paquetes
+# 2. Rutas específicas para macOS (Homebrew)
 if(APPLE)
     list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/libpq" "/opt/homebrew")
     list(APPEND CMAKE_PROGRAM_PATH "/opt/homebrew/opt/libpq/bin")
@@ -21,6 +22,7 @@ if(APPLE)
     set(ENV{PKG_CONFIG_PATH} "/opt/homebrew/opt/libpq/lib/pkgconfig:/opt/homebrew/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
 endif()
 
+# 3. Dependencias externas (TagLib obligatorio en Docker, opcional en macOS)
 find_package(Doxygen)
 find_package(PkgConfig REQUIRED)
 
@@ -29,7 +31,6 @@ if(APPLE)
 else()
     pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib)
 endif()
-
 
 find_package(libpqxx CONFIG QUIET)
 if(libpqxx_FOUND)
@@ -40,6 +41,7 @@ else()
 endif()
 
 include(FetchContent)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
     googletest
@@ -119,6 +121,7 @@ endif()
 
 target_link_libraries(AplicacionMusica
     PUBLIC
+    Qt6::Core
     $<$<BOOL:${TAGLIB_FOUND}>:PkgConfig::TAGLIB>
     ${PQXX_TARGET}
     nlohmann_json::nlohmann_json
@@ -133,25 +136,28 @@ target_compile_options(AplicacionMusica
 # 5. Ejecutable de la aplicación de usuario (QML)
 qt_add_executable(appAplicacionMusica
     main.cpp
-    include/BibliotecaController.hpp
-    src/BibliotecaController.cpp
 )
 
 qt_add_qml_module(appAplicacionMusica
     URI AplicacionMusica
     VERSION 0.1
+    RESOURCE_PREFIX /
     QML_FILES
         qml/Main.qml
         qml/vistas/VistaCanciones.qml
         qml/vistas/VistaAlbumes.qml
         qml/vistas/VistaArtistas.qml
         qml/vistas/VistaBuscadorAvanzado.qml
-        qml/componentes//DialogoImportarMinero.qml
-        qml/componentes/DialogoEditarCancion.qml
+        qml/componentes/BarraReproductor.qml
         qml/componentes/DialogoEditarAlbum.qml
-        qml/componentes/DialogoPersonaGrupo.qml
+        qml/componentes/DialogoEditarCancion.qml
+        qml/componentes/DialogoImportarMinero.qml
         qml/componentes/DialogoIntegrantes.qml
-    )
+        qml/componentes/DialogoPersonaGrupo.qml
+)
+
+
+
 
 
 set_target_properties(appAplicacionMusica PROPERTIES
@@ -161,11 +167,14 @@ set_target_properties(appAplicacionMusica PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appAplicacionMusica
-    PRIVATE
+target_link_libraries(appAplicacionMusica PRIVATE
     Qt6::Quick
+    Qt6::QuickControls2
+    Qt6::Multimedia
     AplicacionMusica
 )
+
+
 
 # 6. Pruebas unitarias
 add_executable(AplicacionMusicaTest
@@ -201,7 +210,5 @@ if(DOXYGEN_FOUND)
         COMMENT "Generando documentación con doxygen."
     )
 endif()
-
-
 
 

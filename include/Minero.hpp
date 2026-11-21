@@ -1,13 +1,16 @@
 #ifndef MINERO_HPP
 #define MINERO_HPP
 
-#include "MetadatosMP3.hpp"
+#include "MetaDatosMP3.hpp"
 #include "CompiladorBusquedasFacade.hpp"
 #include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <pqxx/pqxx>
+
+namespace pqxx {
+class connection;
+}
 
 /**
  * @class  LectorEtiquetasMP3; 

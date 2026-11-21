@@ -43,12 +43,12 @@ Dialog {
     GridLayout {
         columns: 2
         anchors.fill: parent
-        Label { text: "Título:" }      ; TextField { id: campoTitle; Layout.fillWidth: true }
-        Label { text: "Intérprete:" }  ; ComboBox  { id: comboPerf; model: listaPerformers.map(p => p.name); Layout.fillWidth: true }
-        Label { text: "Pista:" }       ; TextField { id: campoTrack; Layout.fillWidth: true }
-        Label { text: "Disco:" }       ; TextField { id: campoDisc; Layout.fillWidth: true }
-        Label { text: "Año:" }         ; TextField { id: campoYear; Layout.fillWidth: true }
-        Label { text: "Género:" }      ; TextField { id: campoGenre; Layout.fillWidth: true }
-        Label { text: "Comentario:" }  ; TextField { id: campoComment; Layout.fillWidth: true }
+        Label { text: "Título:" }       TextField { id: campoTitle; Layout.fillWidth: true }
+        Label { text: "Intérprete:" }   ComboBox  { id: comboPerf; model: listaPerformers.map(p => p.name); Layout.fillWidth: true }
+        Label { text: "Pista:" }        TextField { id: campoTrack; Layout.fillWidth: true }
+        Label { text: "Disco:" }        TextField { id: campoDisc; Layout.fillWidth: true }
+        Label { text: "Año:" }          TextField { id: campoYear; Layout.fillWidth: true }
+        Label { text: "Género:" }       TextField { id: campoGenre; Layout.fillWidth: true }
+        Label { text: "Comentario:" }   TextField { id: campoComment; Layout.fillWidth: true }
     }
 }

@@ -8,7 +8,11 @@ Persons::Persons(int id_person, std::string stage_name, std::string real_name,
     birth_date(std::move(birth_date)),
     death_date(std::move(death_date)) {
 
-    std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#ifdef __APPLE__
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=localhost port=5432";
+#else
+    const std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
+#endif
 
     try {
         this->conn = std::make_unique<pqxx::connection>(conn_str);

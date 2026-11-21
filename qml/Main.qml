@@ -1,8 +1,10 @@
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "qml"
-import "qml/componentes"
+import "vistas"
+import "componentes"
+
 
 ApplicationWindow {
     id: ventanaPrincipal
@@ -31,7 +33,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
             }
             Button {
-                text: "Importar Carpeta MP3"
+                text: "Importar Carpeta Musical"
                 onClicked: dialogoMinero.abrirSelector()
             }
         }
