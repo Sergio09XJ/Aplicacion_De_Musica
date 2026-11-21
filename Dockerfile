@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     qt6-base-dev \
     qt6-declarative-dev \
     doxygen \
+    libtag1-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace

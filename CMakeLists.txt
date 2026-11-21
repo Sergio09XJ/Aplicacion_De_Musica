@@ -9,47 +9,47 @@ else()
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
-# 1. Configuración estándar de Qt
+# 1. Configuración estándar de Qt (6.4 funciona en Ubuntu 24.04 Docker y en macOS)
 find_package(Qt6 REQUIRED COMPONENTS Quick)
-qt_standard_project_setup(REQUIRES 6.9)
+qt_standard_project_setup(REQUIRES 6.4)
 
-# 2. Carga de dependencias externas y herramientas
-find_package(Doxygen)
-
+# 2. Rutas específicas para macOS (Homebrew) antes de buscar paquetes
 if(APPLE)
-    list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/libpq")
+    list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew/opt/libpq" "/opt/homebrew")
     list(APPEND CMAKE_PROGRAM_PATH "/opt/homebrew/opt/libpq/bin")
     set(PostgreSQL_ROOT "/opt/homebrew/opt/libpq")
-    if(DEFINED ENV{PKG_CONFIG_PATH})
-        set(ENV{PKG_CONFIG_PATH} "/opt/homebrew/opt/libpq/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
-    else()
-        set(ENV{PKG_CONFIG_PATH} "/opt/homebrew/opt/libpq/lib/pkgconfig")
-    endif()
+    set(ENV{PKG_CONFIG_PATH} "/opt/homebrew/opt/libpq/lib/pkgconfig:/opt/homebrew/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
 endif()
 
-# Detección de libpqxx (CMake Config en macOS / pkg-config en Ubuntu Docker)
+find_package(Doxygen)
+find_package(PkgConfig REQUIRED)
+
+if(APPLE)
+    pkg_check_modules(TAGLIB QUIET IMPORTED_TARGET taglib)
+else()
+    pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib)
+endif()
+
+
 find_package(libpqxx CONFIG QUIET)
 if(libpqxx_FOUND)
     set(PQXX_TARGET libpqxx::pqxx)
 else()
-    find_package(PkgConfig REQUIRED)
     pkg_check_modules(PQXX REQUIRED IMPORTED_TARGET libpqxx)
     set(PQXX_TARGET PkgConfig::PQXX)
 endif()
 
-# Descarga de GoogleTest y nlohmann/json
 include(FetchContent)
 
 FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
-  json
-  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+    json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
 )
 
 FetchContent_MakeAvailable(googletest json)
@@ -57,7 +57,7 @@ FetchContent_MakeAvailable(googletest json)
 include(GNUInstallDirs)
 include(GoogleTest)
 
-# 3. Biblioteca principal del proyecto
+# 4. Biblioteca principal del proyecto
 add_library(AplicacionMusica
     # Definición de los cpp para las clases de las tablas
     src/Types.cpp
@@ -73,6 +73,8 @@ add_library(AplicacionMusica
     src/ConsultaBuilder.cpp
     src/GeneradorSQL.cpp
     src/CompiladorBusquedasFacade.cpp
+    #Definición de la implementación para el minero
+    src/Minero.cpp
     # Definición de los hpp para las clases de las tablas
     include/InterFacadeTablas.hpp
     include/Types.hpp
@@ -90,17 +92,14 @@ add_library(AplicacionMusica
     include/CompiladorBusquedasFacade.hpp
     include/TiposCompilador.hpp
     include/ConsultaAST.hpp
-    # Definición de los hpp
-)
-
-target_link_libraries(AplicacionMusica
-    PUBLIC
-    ${PQXX_TARGET}
-    nlohmann_json::nlohmann_json
+    #Definicion de las clases y structs para el minero
+    include/MetaDatosMP3.hpp
+    include/Minero.hpp
 )
 
 target_include_directories(AplicacionMusica
-    PUBLIC include
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 if(APPLE)
@@ -109,13 +108,17 @@ if(APPLE)
         "/opt/homebrew/include"
         "/opt/homebrew/opt/libpq/include"
     )
-endif()
-
-if(APPLE)
     target_compile_features(AplicacionMusica PUBLIC cxx_std_20)
 else()
     target_compile_features(AplicacionMusica PUBLIC cxx_std_17)
 endif()
+
+target_link_libraries(AplicacionMusica
+    PUBLIC
+    $<$<BOOL:${TAGLIB_FOUND}>:PkgConfig::TAGLIB>
+    ${PQXX_TARGET}
+    nlohmann_json::nlohmann_json
+)
 
 
 target_compile_options(AplicacionMusica
@@ -123,7 +126,7 @@ target_compile_options(AplicacionMusica
     -Wall -Wextra
 )
 
-# 4. Ejecutable de la aplicación de usuario (QML)
+# 5. Ejecutable de la aplicación de usuario (QML)
 qt_add_executable(appAplicacionMusica
     main.cpp
 )
@@ -148,7 +151,7 @@ target_link_libraries(appAplicacionMusica
     AplicacionMusica
 )
 
-# 5. Pruebas unitarias
+# 6. Pruebas unitarias
 add_executable(AplicacionMusicaTest
     tests/TypesTest.cpp
     tests/PerformersTest.cpp
@@ -168,7 +171,7 @@ target_link_libraries(AplicacionMusicaTest
 enable_testing()
 gtest_discover_tests(AplicacionMusicaTest)
 
-# 6. Instalación y documentación
+# 7. Instalación y documentación
 install(TARGETS appAplicacionMusica
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -177,8 +180,12 @@ install(TARGETS appAplicacionMusica
 
 if(DOXYGEN_FOUND)
     add_custom_target(doc
-      COMMAND ${DOXYGEN_EXECUTABLE}
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      COMMENT "Generando documentación con doxygen."
+        COMMAND ${DOXYGEN_EXECUTABLE}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generando documentación con doxygen."
     )
 endif()
+
+
+
+
