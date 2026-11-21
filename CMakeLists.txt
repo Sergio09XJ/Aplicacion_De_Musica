@@ -59,6 +59,7 @@ include(GoogleTest)
 
 # 3. Biblioteca principal del proyecto
 add_library(AplicacionMusica
+    # Definición de los cpp
     src/Types.cpp
     src/Performers.cpp
     src/Persons.cpp
@@ -66,6 +67,7 @@ add_library(AplicacionMusica
     src/In_Group.cpp
     src/Albums.cpp
     src/Rolas.cpp
+    # Definición de los hpp
     include/InterFacadeTablas.hpp
     include/Types.hpp
     include/Performers.hpp
@@ -135,6 +137,11 @@ target_link_libraries(appAplicacionMusica
 add_executable(AplicacionMusicaTest
     tests/TypesTest.cpp
     tests/PerformersTest.cpp
+    tests/In_GroupTest.cpp
+    tests/AlbumsTest.cpp
+    tests/GroupsTest.cpp
+    tests/PersonsTest.cpp
+    tests/RolasTest.cpp
 )
 
 target_link_libraries(AplicacionMusicaTest
