@@ -59,7 +59,7 @@ include(GoogleTest)
 
 # 3. Biblioteca principal del proyecto
 add_library(AplicacionMusica
-    # Definición de los cpp
+    # Definición de los cpp para las clases de las tablas
     src/Types.cpp
     src/Performers.cpp
     src/Persons.cpp
@@ -67,7 +67,13 @@ add_library(AplicacionMusica
     src/In_Group.cpp
     src/Albums.cpp
     src/Rolas.cpp
-    # Definición de los hpp
+    #Definición de la implementación para el compilador.
+    src/CatalogoEsquema.cpp
+    src/NodoCriterio.cpp
+    src/ConsultaBuilder.cpp
+    src/GeneradorSQL.cpp
+    src/CompiladorBusquedasFacade.cpp
+    # Definición de los hpp para las clases de las tablas
     include/InterFacadeTablas.hpp
     include/Types.hpp
     include/Performers.hpp
@@ -76,6 +82,15 @@ add_library(AplicacionMusica
     include/In_Group.hpp
     include/Albums.hpp
     include/Rolas.hpp
+    #Definicion de clases para el compilador.
+    include/CatalogoEsquema.hpp
+    include/NodoCriterio.hpp
+    include/ConsultaBuilder.hpp
+    include/GeneradorSQL.hpp
+    include/CompiladorBusquedasFacade.hpp
+    include/TiposCompilador.hpp
+    include/ConsultaAST.hpp
+    # Definición de los hpp
 )
 
 target_link_libraries(AplicacionMusica

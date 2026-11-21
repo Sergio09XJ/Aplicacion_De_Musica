@@ -43,7 +43,6 @@ services:
       
     depends_on:
       - postgres
-    # Mantiene el contenedor activo para que puedas compilar cuando lo necesites
     command: tail -f /dev/null
 
 volumes:
