@@ -12,7 +12,7 @@ class Performers : public InterFacadeTablas{
 
 private:
 
-    int id_performers;
+    int id_performer;
     int id_type;
     std::string name;
     std::string image;
@@ -25,7 +25,7 @@ public:
     * @param int de el id para performers y type y string de name e image.
     * @return Sin retorno
     */
-    Performers(int id_performers, int id_type, std::string name, std::string image);
+    Performers(int id_performer=0, int id_type=0, std::string name="", std::string image="");
 
     /**
     * @brief Destructor de Performers.

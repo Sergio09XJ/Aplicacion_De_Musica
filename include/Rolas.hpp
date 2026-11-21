@@ -18,7 +18,7 @@ private:
     int id_original_artist;
     std::string path;
     std::string title;
-    int track;
+    std::string track;
     int disk_number;
     int year;
     std::string genre;
@@ -36,10 +36,8 @@ public:
     * @return Sin retorno
     */
     Rolas(int id_rola=0, int id_performer=0, int id_album=0, int id_composer=0, int id_original_artist=0,
-          std::string path="", std::string title="", int track=0, int disk_number=0, int year=0,
+          std::string path="", std::string title="", std::string track="", int disk_number=0, int year=0,
           std::string genre="", std::string comment="");
-
-
     /**
     * @brief Destructor de Rolas.
     * @param Sin parametros.

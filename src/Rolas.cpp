@@ -1,7 +1,7 @@
 #include "Rolas.hpp"
 
 Rolas::Rolas(int id_rola, int id_performer, int id_album, int id_composer, int id_original_artist,
-             std::string path, std::string title, int track, int disk_number, int year,
+             std::string path, std::string title, std::string track, int disk_number, int year,
              std::string genre, std::string comment)
     : id_rola(id_rola),
     id_performer(id_performer),
@@ -10,13 +10,13 @@ Rolas::Rolas(int id_rola, int id_performer, int id_album, int id_composer, int i
     id_original_artist(id_original_artist),
     path(std::move(path)),
     title(std::move(title)),
-    track(track),
+    track(std::move(track)),
     disk_number(disk_number),
     year(year),
     genre(std::move(genre)),
     comment(std::move(comment)) {
 
-    std::string conn_str = "dbname=musica user=postgres password=music_dev_password host=postgres port=5432";
+    std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
 
     try {
         this->conn = std::make_unique<pqxx::connection>(conn_str);
@@ -41,7 +41,7 @@ void Rolas::Crear_Insertar() {
 
     txn.exec_params(
         "INSERT INTO Rolas (id_rola, id_performer, id_album, id_composer, id_original_artist, "
-        "path, title, track, disk_number, year, genre, comment) "
+        "path, title, track, disc_number, year, genre, comment) "
         "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);",
         this->id_rola,
         this->id_performer,
@@ -67,7 +67,7 @@ json Rolas::Leer_Consultar(int id) {
     pqxx::work txn(*conn);
     pqxx::result res = txn.exec_params(
         "SELECT id_rola, id_performer, id_album, id_composer, id_original_artist, "
-        "path, title, track, disk_number, year, genre, comment "
+        "path, title, track, disc_number, year, genre, comment "
         "FROM Rolas WHERE id_rola = $1;",
         id
         );
@@ -82,8 +82,8 @@ json Rolas::Leer_Consultar(int id) {
                 this->id_original_artist = row["id_original_artist"].as<int>(0);
                 this->path = row["path"].as<std::string>("");
                 this->title = row["title"].as<std::string>("");
-                this->track = row["track"].as<int>(0);
-                this->disk_number = row["disk_number"].as<int>(0);
+                this->track = row["track"].as<std::string>("");
+                this->disk_number = row["disc_number"].as<int>(0);
                 this->year = row["year"].as<int>(0);
                 this->genre = row["genre"].as<std::string>("");
                 this->comment = row["comment"].as<std::string>("");
@@ -136,7 +136,7 @@ void Rolas::Actualizar_Modificar(int elemento) {
         txn.exec_params("UPDATE Rolas SET track = $1 WHERE id_rola = $2;", this->track, this->id_rola);
         break;
     case 8:
-        txn.exec_params("UPDATE Rolas SET disk_number = $1 WHERE id_rola = $2;", this->disk_number, this->id_rola);
+        txn.exec_params("UPDATE Rolas SET disc_number = $1 WHERE id_rola = $2;", this->disk_number, this->id_rola);
         break;
     case 9:
         txn.exec_params("UPDATE Rolas SET year = $1 WHERE id_rola = $2;", this->year, this->id_rola);

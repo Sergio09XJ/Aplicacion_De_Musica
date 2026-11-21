@@ -16,7 +16,6 @@ private:
     std::string name;
     std::string start_date;
     std::string end_date;
-    int performers_id;
     std::unique_ptr<pqxx::connection> conn;
 
 public:
@@ -26,7 +25,7 @@ public:
     * @param int para persons y performers, string para stage_name, real name, nacimiento y muerte.
     * @return Sin retorno
     */
-    Groups(int id_group, std::string name, std::string start_date, std::string end_date, int performers_id);
+    Groups(int id_group, std::string name, std::string start_date, std::string end_date);
 
     /**
     * @brief Destructo de Groups.

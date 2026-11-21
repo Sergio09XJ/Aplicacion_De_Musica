@@ -12,12 +12,11 @@ class Persons : public InterFacadeTablas{
 
 private:
 
-    int id_persons;
+    int id_person;
     std::string stage_name;
     std::string real_name;
     std::string birth_date;
     std::string death_date;
-    int performers_id;
     std::unique_ptr<pqxx::connection> conn;
 
 public:
@@ -27,7 +26,7 @@ public:
     * @param int para persons y performers, string para stage_name, real name, nacimiento y muerte.
     * @return Sin retorno
     */
-    Persons(int id_persons, std::string stage_name, std::string real_name, std::string birth_date,  std::string death_date,  int performers_id);
+    Persons(int id_person, std::string stage_name, std::string real_name, std::string birth_date,  std::string death_date);
 
     /**
     * @brief Destructo de Persons.

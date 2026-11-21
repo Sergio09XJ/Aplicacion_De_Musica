@@ -16,7 +16,7 @@ private:
     std::string path;
     std::string name;
     int year;
-    std::string coverImage;
+    std::string cover_image;
     std::unique_ptr<pqxx::connection> conn;
 
 
@@ -27,7 +27,7 @@ public:
     * @param int para id_album y year string para  path, name, coverImage
     * @return Sin retorno
     */
-    Albums(int id_album =0, std::string path="", std::string name="",  int year=0, std::string coverImage="");
+    Albums(int id_album =0, std::string path="", std::string name="",  int year=0, std::string cover_image="");
 
 
     /**

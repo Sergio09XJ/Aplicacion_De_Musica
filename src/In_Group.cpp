@@ -3,7 +3,7 @@
 In_Group::In_Group(int id_person, int id_group)
     : id_person(id_person), id_group(id_group) {
 
-    std::string conn_str = "dbname=musica user=postgres password=music_dev_password host=postgres port=5432";
+    std::string conn_str = "dbname=musicabasedatos user=postgres password=music_dev_password host=postgres port=5432";
 
     try {
         this->conn = std::make_unique<pqxx::connection>(conn_str);
